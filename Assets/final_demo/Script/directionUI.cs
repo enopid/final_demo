@@ -10,6 +10,7 @@ public class directionUI : MonoBehaviour
     public TextMeshProUGUI time;
     private GameObject character;
     private GameObject destination;
+    public int currentcheckpoint;
 
     public navigator navigator;
 
@@ -21,6 +22,7 @@ public class directionUI : MonoBehaviour
     {
         Reset_Timer();
         timer_on = false;
+        currentcheckpoint = 1;
     }
 
     // Update is called once per frame
@@ -32,6 +34,7 @@ public class directionUI : MonoBehaviour
         if (navigator.isstart && !timer_on)
         {
             timer_on = true;
+            arrival.text = "False!";
             Reset_Timer();
         }
 
@@ -47,6 +50,11 @@ public class directionUI : MonoBehaviour
             End_Timer();
         }
 
+        if (navigator.done)
+        {
+            arrival.text = "all task done!";
+        }
+
         gameObject.transform.right =  -(destination.transform.position-character.transform.position).normalized;
 
     }
@@ -54,15 +62,14 @@ public class directionUI : MonoBehaviour
       private void Check_Timer()
     {
         time_current = Time.time - time_start;
-        
-            Debug.Log(time_current);
-            time.text = time_current.ToString();
-        
+        time.text = time_current.ToString();
     }
 
     private void End_Timer()
     {
-        Debug.Log("End");
+        time_current = Time.time - time_start;
+        Debug.LogFormat("checkpoint{0} : {1}s", currentcheckpoint, time_current);
+        currentcheckpoint += 1;
     }
 
 
@@ -70,7 +77,5 @@ public class directionUI : MonoBehaviour
     {
         time_start = Time.time;
         time_current = 0;
-        time.text = time_current.ToString();
-        Debug.Log("Start");
     }
 }

@@ -23,7 +23,7 @@ public class navigator : MonoBehaviour
     private GameObject destination;
 
     public bool isstart;
-    private bool done;
+    public bool done;
 
 
 
